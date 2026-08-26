@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <rect width="64" height="64" rx="14" fill="#0B0B0D"/>
+  <circle cx="22" cy="28" r="14" fill="#8B5CF6" fill-opacity="0.9"/>
+  <circle cx="42" cy="36" r="16" fill="#22D3EE" fill-opacity="0.75"/>
+  <circle cx="34" cy="22" r="10" fill="#EC4899" fill-opacity="0.7"/>
+  <text x="32" y="48" text-anchor="middle" font-family="ui-sans-serif,system-ui" font-size="14" font-weight="700" fill="white">S</text>
+</svg>

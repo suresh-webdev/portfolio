@@ -1,36 +1,31 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Suresh — Full Stack Developer
 
-## Getting Started
+Portfolio for a Full Stack Developer (MERN + Python).
 
-First, run the development server:
+## Stack
+
+- Next.js · TypeScript · Tailwind CSS
+- GSAP + ScrollTrigger · Framer Motion · React Bits · Lucide
+
+## Develop
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm run lint` — ESLint
+- `npm run build` — production build
+- `npm run start` — serve production build
 
-## Learn More
+Screenshot capture for `public/projects/` uses Playwright directly via
+`node scripts/capture-previews.mjs` (no test runner involved).
 
-To learn more about Next.js, take a look at the following resources:
+## Content
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Editable site data lives in `data/` (`site.ts`, `projects.ts`, `experience.ts`, `skills.ts`).
+Contact/social placeholders are in `data/site.ts`.
