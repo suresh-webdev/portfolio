@@ -8,18 +8,56 @@
          injected at build time by the figma-site-configuration Vite plugin,
          sourced from .figma/make/site.json — keep that file as the source of
          truth for those instead of duplicating them here. -->
-    <title>Suresh S — Full-Stack Engineer</title>
+    <!-- Fonts are self-hosted and preloaded. They used to come from Google
+         Fonts, which meant the hero — held invisible until the display face
+         resolved — could show nothing at all for up to 1.2s on a cold load:
+         DNS, TLS and a stylesheet round-trip to fonts.googleapis.com, then a
+         second hop to fonts.gstatic.com before the first glyph existed.
+         Three latin-subset files at the only weights the page actually uses
+         (display 900, body 400, mono 400) total ~59KB and start downloading
+         with the document itself. The @font-face rules are in index.css. -->
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="/fonts/barlow-condensed-900.woff2"
+      crossorigin
+    />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/inter-400.woff2" crossorigin />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="/fonts/jetbrains-mono-400.woff2"
+      crossorigin
+    />
+
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <title>Suresh's Portfolio</title>
     <meta name="author" content="Suresh S" />
     <meta name="theme-color" content="#0c0c0b" />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Suresh S" />
+    <!-- Without these a share of this site rendered as a blank card — the one
+         place the work is judged before anyone sees a pixel of it. The image
+         is generated from the site's own type, palette and lattice. -->
+    <meta property="og:image" content="/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Suresh S — Full-Stack Engineer" />
 
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="Suresh S — Full-Stack Engineer" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="/og.png" />
+    <meta name="twitter:title" content="Suresh's Portfolio" />
     <meta
       name="twitter:description"
-      content="Portfolio of Suresh S, a full-stack engineer building production systems across APIs, data, infrastructure and interfaces."
+      content="Suresh S — full-stack engineer. I build what powers the product and what people experience."
     />
   </head>
   <body>

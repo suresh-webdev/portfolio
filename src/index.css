@@ -1,17 +1,95 @@
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
+/* Preload <link> tags live in index.html — a CSS @import chains an extra
+   round-trip behind this stylesheet before the browser even discovers the
+   font files, which delayed first paint on the headline. */
 @import 'tailwindcss';
+
+/* Self-hosted, latin subset, only the weights the page actually sets.
+   `swap` rather than `block`: the hero already gates its own intro on
+   document.fonts, so a fallback flash is impossible there, and every other
+   block on the page is better off readable immediately. */
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url('/fonts/barlow-condensed-900.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/inter-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/jetbrains-mono-400.woff2') format('woff2');
+}
 
 @theme {
   --color-bg: #0c0c0b;
+  --color-surface: #131311;
+  /* The page's one tonal event. Everything sits on --color-bg except the
+     lattice section, which sits on this — a real, if slight, elevation, so
+     the scroll has somewhere to breathe instead of running eleven sections
+     at a single value.
+
+     Deliberately translucent. The field is one continuous surface behind the
+     whole document, and dropping an opaque plate over it for a section would
+     put a hole in the only thing holding the page together. At this alpha the
+     ground lifts to roughly #1a1a17 while the lattice and its traffic still
+     read through — an elevated panel catching a little less of the light from
+     behind it, which is what elevation should do anyway. */
+  --color-raised: rgba(32, 32, 27, 0.62);
   --color-fg: #f0ede6;
-  --color-muted: #6b6860;
-  --color-accent: #38bdf8;
+
+  /* Body copy. The previous value (a dark warm grey) measured ~3.5:1 on the page ground —
+     under the 4.5:1 floor, and the reason every paragraph on the site read
+     as washed out rather than deep. This lands at ~5.5:1. */
+  --color-muted: #8d887d;
+  /* Decorative ONLY — hairlines, ticks, tracks, watermarks. It measures
+     ~2.9:1 on the page ground, so anything a visitor has to read is muted or
+     brighter. The 8px panel captions that used to be set in this are now
+     9px/muted. */
+  --color-faint: #5f5c55;
+
+  /* ── Two ambers, and the distinction is load-bearing ───────────────────
+     The page used to run one accent for everything, so the same orange
+     marked "you can click this" and "this is a decorative rule" — and once a
+     colour means both it means neither.
+
+     --color-accent is LIVE: the cursor, the conduit head, the active
+     junction, every hover and focus state, the CTA, the field's hot light.
+     If it is this colour, it is responding to you right now.
+
+     --color-ember is STRUCTURE: section indices, section rules, static
+     kickers, chip borders. Deep, rusty, ~5.3:1 on the ground so it is
+     comfortably readable, and about 17 points of L* below the hot amber so
+     it visibly recedes behind it. It is the same rust the shader has always
+     used for the unlit lattice (ACCENT_DEEP in src/lib/field.ts), promoted
+     into the CSS palette so the surface and the shader finally agree. */
+  --color-accent: #ff9d3c;
+  --color-ember: #cc6a30;
+  --color-accent-deep: #b3521a;
+
   --color-border: rgba(240, 237, 230, 0.1);
   --font-display: 'Barlow Condensed', sans-serif;
   --font-body: 'Inter', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
+
+  /* The lattice constant. Everything on the page — the CSS grid, the
+     shader, the conduit gutter, the section rhythm — is measured against
+     this one number. */
+  --cell: 80px;
+}
+
+:root {
+  --etch: linear-gradient(180deg, #fffdf8 0%, #f0ede6 42%, #9b968b 100%);
 }
 
 html,
@@ -28,8 +106,25 @@ html {
   -moz-osx-font-smoothing: grayscale;
 }
 
+body {
+  scrollbar-width: none;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
 * {
   cursor: none;
+}
+
+/* Text inputs keep a real caret affordance — the cursor ring is not an
+   I-beam and cannot stand in for one. */
+input,
+textarea,
+[contenteditable] {
+  cursor: text;
 }
 
 @media (hover: none) {
@@ -38,25 +133,167 @@ html {
   }
 }
 
-/* Hide scrollbar */
-::-webkit-scrollbar {
-  display: none;
-}
-
-body {
-  scrollbar-width: none;
-  overflow-x: hidden;
-}
-
-/* Selection */
 ::selection {
-  background: rgba(56, 189, 248, 0.25);
+  background: rgba(255, 157, 60, 0.25);
   color: #f0ede6;
+}
+
+/* Keyboard focus. `cursor: none` removes the one affordance a mouse user
+   gets, so the keyboard equivalent has to be explicit and on-brand. */
+:focus-visible {
+  outline: 2px solid #ff9d3c;
+  outline-offset: 4px;
+}
+
+.skip-link {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  transform: translateY(-120%);
+  background: #0c0c0b;
+  color: #f0ede6;
+  border: 1px solid #ff9d3c;
+  padding: 0.75rem 1.25rem;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transition: transform 200ms ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* These live in Tailwind's `components` layer on purpose. Defined as bare
+   selectors they sat *outside* the cascade layers entirely, which put them
+   above every utility — `.display` then beat `text-[...]`, and every
+   `hover:text-*` on a display element silently did nothing. */
+@layer components {
+  /* ── Typographic materials ────────────────────────────────────────────────
+     Display type is treated as a surface, not a string: `.display` is the one
+     place the optical settings live so every headline on the page is cut the
+     same way. */
+  .display {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    text-transform: uppercase;
+    line-height: 0.86;
+    letter-spacing: -0.025em;
+    color: #f0ede6;
+  }
+
+  .mono-label {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  /* Small mono is the site's connective tissue, but under ~10px with heavy
+     tracking it stops being readable on a phone. Floor it there. */
+  @media (max-width: 767px) {
+    .mono-label {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+    }
+  }
+
+  /* A headline that reads as etched into the field rather than sitting on it:
+     the fill is a vertical ramp from full white-warm down to a dimmer tone,
+     so long words carry light the way the lattice does. */
+  .display-etched {
+    background-image: var(--etch);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Split headlines have to paint the ramp per character. Once GSAP transforms
+     a character span it becomes its own paint layer, which detaches it from the
+     ancestor's text clip — and Chrome then falls back to filling the ancestor's
+     *box*, so an etched headline rendered as a row of solid slabs. Clipping on
+     each character instead keeps the ramp identical (every glyph shares the
+     line box) and survives being animated. */
+  .display-etched:has(.sc) {
+    background-image: none;
+  }
+
+  .display-etched .sc {
+    background-image: var(--etch);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Outlined display type — used once, for the counterweight word in a pair,
+     so scale contrast is joined by weight contrast. */
+  .display-outline {
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgba(240, 237, 230, 0.5);
+  }
+
+  @media (max-width: 767px) {
+    .display-outline {
+      -webkit-text-stroke-width: 1px;
+    }
+  }
+
+  /* The section watermark. It used to be a solid fill at 3.5% opacity, which
+     on this ground composites to about #141413 — eight levels out of 255 away
+     from the background, sitting on top of a lattice drawn at the same alpha.
+     It was, in practice, not on the screen, and it took the page's only
+     parallax with it.
+
+     Outlining it instead means the numeral reads as structure — a drafting
+     mark at the same hairline weight as everything else here — rather than as
+     a faint smudge, and it survives the field's traffic passing behind it. */
+  .display-ghost {
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(240, 237, 230, 0.075);
+  }
+
+  @media (max-width: 767px) {
+    .display-ghost {
+      -webkit-text-stroke-width: 0.75px;
+    }
+  }
+
+  /* Char/word wrappers produced by splitWords(). The word box clips its own
+     line so a character reveal masks correctly without a wrapper div per
+     headline, and keeps line-breaking at word boundaries. */
+  .sw {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+    padding-bottom: 0.08em;
+  }
+
+  .sc {
+    display: inline-block;
+    white-space: pre;
+  }
+
+  /* Hairline rule that fades out rather than stopping — section edges should
+     dissolve into the field, not butt-join against it. */
+  .rule-fade {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      rgba(240, 237, 230, 0.16) 0%,
+      rgba(240, 237, 230, 0.06) 40%,
+      transparent 100%
+    );
+  }
 }
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }

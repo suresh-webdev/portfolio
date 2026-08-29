@@ -1,11 +1,32 @@
 import { useEffect, useRef } from "react";
-import { gsap } from "../lib/animations";
+import {
+  gsap,
+  ScrollTrigger,
+  registerFieldSection,
+  settle,
+  settleGroup,
+  drawRule,
+  wipe,
+  ENTER,
+} from "../lib/animations";
+import { ENERGY } from "../lib/field";
+import { PAD, SHELL } from "../lib/layout";
 import SectionLabel from "./SectionLabel";
 import GhostNumeral from "./GhostNumeral";
 
-const LINE_OFFSET = 200;
+// PRODUCTS — full-width cases rather than a bulleted list beside a line.
+//
+// The previous layout was a 200px meta column against a text column, with a
+// scrubbed vertical rule down the side. That rule is now the page's conduit,
+// so it does not need a second copy here; what the section needed instead was
+// weight. Each case is a slab: a full-width rail of metadata, an oversized
+// title, and the deliverables set as a lit index that responds to the cursor.
+//
+// The bracket on the left of each deliverable extends on hover. It is the
+// smallest interaction on the page and the only one in this section — enough
+// to make a long list feel like an instrument panel rather than a résumé.
 
-interface ProductProps {
+interface CaseProps {
   number: string;
   title: string;
   category: string;
@@ -15,168 +36,162 @@ interface ProductProps {
   note?: string;
 }
 
-function ProductCase({ number, title, category, description, highlights, technologies, note }: ProductProps) {
-  const blockRef = useRef<HTMLDivElement>(null);
+function ProductCase({
+  number,
+  title,
+  category,
+  description,
+  highlights,
+  technologies,
+  note,
+}: CaseProps) {
+  const rootRef = useRef<HTMLElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const railRef = useRef<HTMLSpanElement>(null);
+  const bodyRef = useRef<HTMLDivElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
+  const chipsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const el = blockRef.current;
-    if (!el) return;
-    gsap.fromTo(
-      el,
-      { y: 70, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 1,
-        ease: "power3.out",
-        scrollTrigger: { trigger: el, start: "top 95%", toggleActions: "play none none reverse" },
+    const ctx = gsap.context(() => {
+      drawRule(railRef.current);
+      // A beam across it, not a character rise. Splitting these to characters
+      // gave a case title the same entrance as the name in the hero, and once
+      // eight headlines share the signature move it stops being one.
+      wipe(titleRef.current);
+      settle(bodyRef.current, 0.08);
+      if (listRef.current) {
+        settleGroup(listRef.current.querySelectorAll(".deliverable"), {
+          stagger: 0.045,
+          y: 16,
+          start: ENTER,
+        });
       }
-    );
+      settle(chipsRef.current, 0.12);
+    }, rootRef);
+    return () => ctx.revert();
   }, []);
 
   return (
-    <div ref={blockRef} className="relative border-t border-[rgba(240,237,230,0.1)] pt-12 pb-16">
-      <div
-        className="hidden md:block absolute w-2.5 h-2.5 rounded-full bg-[#38bdf8] border-2 border-[#0c0c0b]"
-        style={{ left: LINE_OFFSET - 5, top: 48 }}
-      />
-      <div className="grid md:grid-cols-[200px_2fr] gap-8 md:gap-16">
-        <div>
-          <span className="font-mono text-[#38bdf8] text-[11px] tracking-[0.3em] block mb-3">{number}</span>
-          <span className="font-mono text-[9px] text-[#6b6860] tracking-[0.2em] uppercase">{category}</span>
-        </div>
-        <div>
-          <h3
-            className="font-display font-black uppercase text-[#f0ede6] mb-6"
-            style={{ fontSize: "clamp(32px, 4vw, 56px)", lineHeight: 0.95, letterSpacing: "-0.01em" }}
-          >
-            {title}
-          </h3>
-          <p className="font-body text-[#6b6860] text-base leading-relaxed mb-8 max-w-2xl">{description}</p>
+    <article ref={rootRef} className="relative pt-14 pb-20 md:pt-20 md:pb-28">
+      {/* Metadata rail across the full measure. */}
+      <div className="flex items-center gap-5 mb-8 md:mb-12">
+        <span className="font-mono text-[10px] tracking-[0.3em] text-[var(--color-ember)] whitespace-nowrap">
+          {number}
+        </span>
+        <span
+          ref={railRef}
+          className="h-px flex-1 origin-left bg-gradient-to-r from-[rgba(240,237,230,0.24)] to-transparent"
+        />
+        <span className="font-mono text-[10px] tracking-[0.24em] uppercase text-[var(--color-muted)] whitespace-nowrap">
+          {category}
+        </span>
+      </div>
 
+      <h3
+        ref={titleRef}
+        className="display display-etched mb-10 md:mb-14"
+        style={{ fontSize: "clamp(40px, 7.5vw, 118px)" }}
+      >
+        {title}
+      </h3>
+
+      <div className="grid md:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] gap-10 md:gap-16 lg:gap-24">
+        <div ref={bodyRef}>
+          <p className="font-body text-[var(--color-muted)] text-base leading-relaxed max-w-xl">
+            {description}
+          </p>
           {note && (
-            <div className="border-l-2 border-[#38bdf8] pl-4 mb-8">
-              <p className="font-mono text-[10px] text-[#6b6860] leading-relaxed tracking-wide">{note}</p>
-            </div>
+            <p className="mt-8 pl-5 border-l border-[var(--color-ember)] font-mono text-[10px] leading-relaxed tracking-wide text-[var(--color-muted)] max-w-sm">
+              {note}
+            </p>
           )}
+        </div>
 
-          <div className="mb-8">
-            <span className="font-mono text-[9px] text-[#6b6860] tracking-[0.25em] uppercase block mb-4">
-              Key Deliverables
-            </span>
-            <div className="flex flex-col gap-2">
-              {highlights.map((h) => (
-                <div key={h} className="flex items-start gap-3">
-                  <span className="text-[#38bdf8] font-mono text-[10px] mt-1">—</span>
-                  <span className="font-body text-[#f0ede6] text-sm opacity-80">{h}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="flex flex-wrap gap-2">
-            {technologies.map((tech) => (
-              <span
-                key={tech}
-                className="font-mono text-[9px] tracking-[0.2em] text-[#6b6860] border border-[rgba(240,237,230,0.1)] px-2.5 py-1 uppercase"
+        <div ref={listRef}>
+          <span className="font-mono text-[9px] text-[var(--color-muted)] tracking-[0.28em] uppercase block mb-6">
+            Key deliverables
+          </span>
+          <ul className="flex flex-col">
+            {highlights.map((h) => (
+              <li
+                key={h}
+                className="deliverable group flex items-baseline gap-4 py-3 border-b border-[rgba(240,237,230,0.06)]"
               >
-                {tech}
-              </span>
+                <span className="relative flex-none h-px w-4 bg-[var(--color-faint)] translate-y-[-3px] overflow-visible">
+                  <span className="absolute inset-y-0 left-0 w-full origin-left scale-x-0 bg-[var(--color-accent)] transition-transform duration-500 ease-out group-hover:scale-x-[2.2]" />
+                </span>
+                <span className="font-body text-sm text-[var(--color-fg)] opacity-75 transition-opacity duration-300 group-hover:opacity-100">
+                  {h}
+                </span>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </div>
-    </div>
+
+      <div ref={chipsRef} className="flex flex-wrap gap-2 mt-12">
+        {technologies.map((tech) => (
+          <span
+            key={tech}
+            className="font-mono text-[9px] tracking-[0.2em] text-[var(--color-muted)] border border-[rgba(240,237,230,0.12)] px-2.5 py-1 uppercase"
+          >
+            {tech}
+          </span>
+        ))}
+      </div>
+    </article>
   );
 }
 
 export default function Products() {
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const subtitleRef = useRef<HTMLParagraphElement>(null);
-  const listRef = useRef<HTMLDivElement>(null);
-  const progressRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const headRef = useRef<HTMLHeadingElement>(null);
+  const ledeRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
-    const title = titleRef.current;
-    const subtitle = subtitleRef.current;
-    const list = listRef.current;
-
-    if (title) {
-      gsap.fromTo(
-        title,
-        { clipPath: "inset(0 100% 0 0)" },
-        {
-          clipPath: "inset(0 0% 0 0)",
-          duration: 1.2,
-          ease: "power3.inOut",
-          scrollTrigger: { trigger: title, start: "top 95%", toggleActions: "play none none reverse" },
-        }
-      );
-    }
-    if (subtitle) {
-      gsap.fromTo(
-        subtitle,
-        { y: 30, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.8,
-          scrollTrigger: { trigger: subtitle, start: "top 95%", toggleActions: "play none none reverse" },
-        }
-      );
-    }
-
-    if (list && progressRef.current) {
-      gsap.fromTo(
-        progressRef.current,
-        { scaleY: 0 },
-        {
-          scaleY: 1,
-          ease: "none",
-          scrollTrigger: {
-            trigger: list,
-            start: "top 75%",
-            end: "bottom 60%",
-            scrub: 0.5,
-          },
-        }
-      );
-    }
+    const cleanupField = registerFieldSection(sectionRef.current, ENERGY.products);
+    const ctx = gsap.context(() => {
+      wipe(headRef.current);
+      settle(ledeRef.current, 0.12);
+      ScrollTrigger.refresh();
+    }, sectionRef);
+    return () => {
+      ctx.revert();
+      cleanupField();
+    };
   }, []);
 
   return (
-    <section id="engineering" className="relative py-24 md:py-32 px-8 md:px-12 overflow-hidden">
-      <GhostNumeral value="04" />
-      <div className="max-w-7xl mx-auto">
+    <section ref={sectionRef} id="engineering" data-section className="relative py-24 md:py-32">
+      <GhostNumeral value="04" place="tr" />
+      <div className={`relative ${PAD} ${SHELL}`}>
         <SectionLabel index="04" label="Product & Engineering Work" />
 
-        <h2
-          ref={titleRef}
-          className="font-display font-black uppercase text-[#f0ede6] mb-6"
-          style={{ fontSize: "clamp(48px, 7vw, 96px)", lineHeight: 0.95, letterSpacing: "-0.02em" }}
-        >
-          PRODUCTS
+        <h2 ref={headRef} className="display mt-8 mb-6" style={{ fontSize: "clamp(52px, 8vw, 132px)" }}>
+          Products
         </h2>
-        <p ref={subtitleRef} className="font-body text-[#6b6860] text-base md:text-lg max-w-lg leading-relaxed mb-20">
-          Beyond the interface. Building systems, APIs and infrastructure that power real products.
-        </p>
+        {/* Hanging indent. Interfaces sets its lede beside the headline;
+            this one drops it into the second column with a rule leading into
+            it, so the two sections open on visibly different axes rather than
+            running the same flush-left column twice. */}
+        <div className="grid md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] gap-4 md:gap-10 items-start">
+          {/* `items-start`, not `items-baseline`: an empty span has no baseline
+              to align to, so baseline alignment left this rule's position up to
+              the browser. Nudged down by hand to meet the lede's first line. */}
+          <span className="hidden md:block h-px w-full bg-gradient-to-r from-[rgba(240,237,230,0.18)] to-transparent mt-[0.7em]" />
+          <p
+            ref={ledeRef}
+            className="font-body text-[var(--color-muted)] text-base md:text-lg max-w-lg leading-relaxed"
+          >
+            Beyond the interface. Building systems, APIs and infrastructure that power real products.
+          </p>
+        </div>
 
-        <div ref={listRef} className="relative">
-          {/* Same connecting-line device as Timeline — a faint track plus a
-              scroll-scrubbed accent segment drawing down through the cases. */}
-          <div
-            className="hidden md:block absolute top-0 bottom-0 w-px bg-[rgba(240,237,230,0.1)]"
-            style={{ left: LINE_OFFSET }}
-          />
-          <div
-            ref={progressRef}
-            className="hidden md:block absolute top-0 w-px h-full bg-[#38bdf8] origin-top"
-            style={{ left: LINE_OFFSET, transform: "scaleY(0)" }}
-          />
-
+        <div className="mt-8">
           <ProductCase
             number="01 / 02"
-            title="FINNULATE AI"
+            title="Finnulate AI"
             category="Fintech Compliance Platform"
             description="End-to-end ownership of five core production modules on Finnulate AI, a fintech compliance platform. Responsible for the full contract from data model to API to implementation to interface to deployment."
             highlights={[
@@ -192,7 +207,7 @@ export default function Products() {
 
           <ProductCase
             number="02 / 02"
-            title="AUDITEE AI"
+            title="Auditee AI"
             category="AI Ad Auditing Platform"
             description="Built the backend of an internal AI ad-auditing tool from the ground up: authentication and authorization, file processing and data pipelines. The system ran in production for approximately 20 operations users before the project was wound down due to budget."
             highlights={[
@@ -202,7 +217,7 @@ export default function Products() {
               "Production deployment and support",
             ]}
             technologies={["NODE.JS", "APIS", "AUTHENTICATION", "DATA PIPELINES", "AI"]}
-            note="Ran in production for ~20 operations users. Project was wound down due to budget. This is an honest account, and it makes for a stronger story."
+            note="Ran in production for ~20 operations users before the project was wound down due to budget."
           />
         </div>
       </div>

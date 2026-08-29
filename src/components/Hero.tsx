@@ -1,68 +1,176 @@
 import { useEffect, useRef } from "react";
-import { gsap, splitChars } from "../lib/animations";
+import { gsap, ScrollTrigger, registerFieldSection, splitWords, WEIGHT } from "../lib/animations";
+import { ENERGY, fieldState, setIntro } from "../lib/field";
 import { siteConfig } from "../data/siteConfig";
-import GhostNumeral from "./GhostNumeral";
+import { PAD } from "../lib/layout";
 
+// The hero is unchanged in composition — it is the quality benchmark the rest
+// of the page was rebuilt to meet, so its type, spacing, masking and timing
+// are exactly as they were. What changed underneath it:
+//
+//  1. The field it sits on is no longer its own canvas; it is the page's,
+//     and the hero simply asks for the calm energy level it always ran at.
+//  2. The intro waits for the display face. Barlow Condensed Black at 200px
+//     arriving mid-timeline reflowed every character span while they were in
+//     motion — a visible shudder on the single most important animation here.
+//  3. Characters are split by word, so the name can never break mid-word.
 export default function Hero() {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
   const nameRef = useRef<HTMLHeadingElement>(null);
   const roleRef = useRef<HTMLDivElement>(null);
   const stmtRef = useRef<HTMLParagraphElement>(null);
   const stackRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const lineRef = useRef<HTMLDivElement>(null);
+  const tickRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReduced) return;
+    const cleanupField = registerFieldSection(sectionRef.current, ENERGY.hero, { hero: 1 });
 
-    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-    const name = nameRef.current;
-    const role = roleRef.current;
-    const stmt = stmtRef.current;
-    const stack = stackRef.current;
-    const scroll = scrollRef.current;
-    const line = lineRef.current;
+    const parts = [
+      nameRef.current,
+      roleRef.current,
+      stmtRef.current,
+      stackRef.current,
+      scrollRef.current,
+      lineRef.current,
+    ];
 
-    if (!name) return;
+    if (prefersReduced) {
+      // The intro timeline is what normally clears these, so reveal them
+      // directly instead of leaving the hero permanently invisible — and it
+      // is also what normally ramps the field up, so land that at full drive
+      // here rather than leaving the page on a dark canvas.
+      setIntro(1);
+      gsap.set(parts, { visibility: "visible" });
+      return cleanupField;
+    }
 
-    const chars = splitChars(name);
+    let tl: gsap.core.Timeline | null = null;
+    let tickTl: gsap.core.Timeline | null = null;
+    let st: ScrollTrigger | null = null;
+    let cancelled = false;
 
-    tl.set([name, role, stmt, stack, scroll, line], { visibility: "visible" })
-      .fromTo(chars, { y: "110%", opacity: 0 }, { y: "0%", opacity: 1, duration: 0.8, stagger: 0.04 }, 0.2)
-      .fromTo(role, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7 }, 0.9)
-      .fromTo(line, { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: "power2.inOut" }, 1.0)
-      .fromTo(stmt, { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7 }, 1.1)
-      .fromTo(stack, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6 }, 1.3)
-      .fromTo(scroll, { opacity: 0 }, { opacity: 1, duration: 0.6 }, 1.7);
+    const play = () => {
+      if (cancelled) return;
+      const name = nameRef.current;
+      if (!name) {
+        // The field's boot ramp is driven from the timeline below, so bailing
+        // out here without it would leave the whole page on an unlit canvas.
+        // Failing to animate is acceptable; failing to render is not.
+        setIntro(1);
+        return;
+      }
+
+      const chars = splitWords(name);
+
+      tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+      tl.set(parts, { visibility: "visible" })
+        // The field powers up with the name rather than being fully lit
+        // before it. The lattice resolves first and the current starts
+        // flowing about halfway through the rise, so the opening frame shows
+        // the system starting — which is the page's whole argument, and it
+        // used to be over before anyone had looked at it.
+        .fromTo(
+          fieldState,
+          { intro: 0 },
+          { intro: 1, duration: 1.9, ease: "power2.inOut" },
+          0
+        )
+        // Signature weight. This is the slowest, heaviest entrance on the
+        // site and one of only three that split to characters at all.
+        .fromTo(
+          chars,
+          { yPercent: 118 },
+          { yPercent: 0, duration: WEIGHT.signature.duration, stagger: WEIGHT.signature.stagger, ease: "expo.out" },
+          0.15
+        )
+        .fromTo(roleRef.current, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7 }, 0.95)
+        .fromTo(lineRef.current, { scaleX: 0 }, { scaleX: 1, duration: 0.9, ease: "expo.out" }, 1.05)
+        .fromTo(stmtRef.current, { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7 }, 1.15)
+        .fromTo(stackRef.current, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6 }, 1.35)
+        .fromTo(scrollRef.current, { opacity: 0 }, { opacity: 1, duration: 0.6 }, 1.75);
+
+      // The scroll tick, as a GSAP loop rather than a CSS keyframe so it can
+      // actually be stopped once the hero leaves the viewport. It was the one
+      // thing on the page still running while off screen.
+      if (tickRef.current) {
+        tickTl = gsap
+          .timeline({ repeat: -1, paused: true })
+          .fromTo(
+            tickRef.current,
+            { yPercent: -100 },
+            { yPercent: 300, duration: 2, ease: "power1.inOut" }
+          );
+        st = ScrollTrigger.create({
+          trigger: sectionRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          onToggle: (self) => (self.isActive ? tickTl?.play() : tickTl?.pause()),
+        });
+      }
+    };
+
+    // The hero is held invisible until the display face resolves, because
+    // Barlow Condensed Black arriving at 200px mid-timeline reflows every
+    // character span while it is in motion.
+    //
+    // That gate used to race a 1200ms timeout, and on a cold load it really
+    // could take most of that: the faces came from Google Fonts, so the first
+    // glyph was behind DNS, TLS, a stylesheet round-trip and a second hop to
+    // another origin. The worst case was over a second of nothing at all —
+    // the first impression being an empty dark rectangle.
+    //
+    // The faces are now self-hosted and preloaded from the document itself
+    // (see index.html), so they are in flight before this component exists
+    // and resolve in tens of milliseconds. The race is kept only as a
+    // backstop against a font that fails outright, and 400ms is now a
+    // pathological ceiling rather than a plausible wait.
+    const fonts = (document as Document & { fonts?: FontFaceSet }).fonts;
+    if (fonts) {
+      Promise.race([fonts.ready, new Promise((r) => setTimeout(r, 400))]).then(play);
+    } else {
+      play();
+    }
+
+    return () => {
+      cancelled = true;
+      tl?.kill();
+      tickTl?.kill();
+      st?.kill();
+      cleanupField();
+    };
   }, []);
 
   return (
-    <section className="relative min-h-screen flex flex-col justify-end pb-20 px-8 md:px-12 overflow-hidden">
+    <section
+      ref={sectionRef}
+      id="hero"
+      data-section
+      className={`relative min-h-screen flex flex-col justify-end pb-20 overflow-hidden ${PAD}`}
+    >
       <div
         className="absolute top-0 left-0 right-0 pointer-events-none"
         style={{
-          height: "60vh",
-          background: "linear-gradient(rgba(56, 189, 248,0.15) 0%, rgba(56, 189, 248,0) 77%)",
+          height: "55vh",
+          background: "linear-gradient(rgba(255,157,60,0.07) 0%, rgba(255,157,60,0) 80%)",
         }}
       />
-      <GhostNumeral value="01" />
 
       <div className="relative z-10 max-w-7xl">
         {/* Overflowing name */}
-        <div className="overflow-hidden mb-2">
-          <h1
-            ref={nameRef}
-            className="font-display font-black uppercase text-[#f0ede6] invisible"
-            style={{ fontSize: "clamp(72px, 14vw, 200px)", lineHeight: 0.9, letterSpacing: "-0.02em" }}
-          >
-            {siteConfig.name}
-          </h1>
-        </div>
+        <h1
+          ref={nameRef}
+          className="display invisible mb-2"
+          style={{ fontSize: "clamp(72px, 14vw, 200px)", lineHeight: 0.9, letterSpacing: "-0.02em" }}
+        >
+          {siteConfig.name}
+        </h1>
 
         {/* Role */}
         <div ref={roleRef} className="invisible flex items-center gap-4 mb-6 mt-4">
-          <span className="font-mono text-[11px] text-[#38bdf8] tracking-[0.3em] uppercase">
+          <span className="font-mono text-[11px] text-[var(--color-ember)] tracking-[0.3em] uppercase">
             {siteConfig.role}
           </span>
         </div>
@@ -70,14 +178,22 @@ export default function Hero() {
         {/* Divider */}
         <div
           ref={lineRef}
-          className="invisible h-px bg-[#f0ede6] mb-8 origin-left"
+          className="invisible h-px bg-[var(--color-fg)] mb-8 origin-left"
           style={{ opacity: 0.12, maxWidth: "40vw" }}
         />
 
-        {/* Statement */}
+        {/* Statement.
+            `text-wrap: balance` rather than a hand-tuned max-width. Left to
+            wrap normally this line filled its measure and dropped a single
+            word onto the second line — a widow directly under the name, in
+            the most looked-at block on the site. Balancing evens the two
+            lines at any viewport instead of breaking at one width, and on
+            this sentence it happens to break at the conjunction, so the
+            line-split lands on the same two-part claim the rest of the page
+            is built around. */}
         <p
           ref={stmtRef}
-          className="invisible font-body text-[#6b6860] text-lg md:text-xl max-w-xl leading-relaxed mb-8"
+          className="invisible font-body text-[var(--color-muted)] text-lg md:text-xl max-w-xl leading-relaxed mb-8 text-balance"
         >
           {siteConfig.tagline}
         </p>
@@ -87,7 +203,7 @@ export default function Hero() {
           {siteConfig.stack.map((tech) => (
             <span
               key={tech}
-              className="font-mono text-[10px] tracking-[0.25em] text-[#6b6860] border border-[rgba(240,237,230,0.1)] px-3 py-1.5 uppercase"
+              className="font-mono text-[10px] tracking-[0.25em] text-[var(--color-muted)] border border-[rgba(240,237,230,0.12)] px-3 py-1.5 uppercase"
             >
               {tech}
             </span>
@@ -98,28 +214,19 @@ export default function Hero() {
       {/* Scroll indicator */}
       <div
         ref={scrollRef}
-        className="invisible absolute bottom-8 right-8 md:right-12 flex flex-col items-center gap-2"
+        className="invisible absolute bottom-8 right-6 md:right-12 flex flex-col items-center gap-2"
       >
-        <span className="font-mono text-[9px] tracking-[0.3em] text-[#6b6860] uppercase rotate-90 origin-right mb-4">
+        <span className="font-mono text-[9px] tracking-[0.3em] text-[var(--color-muted)] uppercase rotate-90 origin-right mb-4">
           Scroll
         </span>
-        <div className="w-px h-12 bg-[#6b6860] relative overflow-hidden">
+        <div className="w-px h-12 bg-[var(--color-faint)] relative overflow-hidden">
           <div
-            className="absolute top-0 left-0 w-full bg-[#38bdf8]"
-            style={{
-              height: "40%",
-              animation: "scrollLine 2s ease-in-out infinite",
-            }}
+            ref={tickRef}
+            className="absolute top-0 left-0 w-full bg-[var(--color-accent)]"
+            style={{ height: "40%" }}
           />
         </div>
       </div>
-
-      <style>{`
-        @keyframes scrollLine {
-          0% { transform: translateY(-100%); }
-          100% { transform: translateY(300%); }
-        }
-      `}</style>
     </section>
   );
 }
