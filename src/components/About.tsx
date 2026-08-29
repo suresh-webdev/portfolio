@@ -19,7 +19,7 @@ export default function About() {
         duration: 0.9,
         stagger: 0.12,
         ease: "power3.out",
-        scrollTrigger: { trigger: el, start: "top 80%" },
+        scrollTrigger: { trigger: el, start: "top 95%", toggleActions: "play none none reverse" },
       }
     );
   }, []);
@@ -54,7 +54,7 @@ export default function About() {
                     {step}
                   </span>
                   {i < arr.length - 1 && (
-                    <span className="font-mono text-[9px] text-[#d4a843]">→</span>
+                    <span className="font-mono text-[9px] text-[#38bdf8]">→</span>
                   )}
                 </div>
               ))}

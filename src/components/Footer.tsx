@@ -1,4 +1,5 @@
 import { siteConfig } from "../data/siteConfig";
+import { IconMail, IconLinkedIn, IconGithub } from "./icons";
 
 export default function Footer() {
   return (
@@ -9,32 +10,35 @@ export default function Footer() {
             {siteConfig.name}
           </span>
           <span className="font-mono text-[9px] text-[#6b6860] tracking-[0.2em]">
-            Backend Engineer · Full-Stack Engineering · Interactive UI
+            Full-Stack Engineer · Interactive UI
           </span>
         </div>
 
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-4">
           <a
             href={siteConfig.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="font-mono text-[9px] text-[#6b6860] tracking-[0.2em] hover:text-[#f0ede6] transition-colors duration-300 uppercase"
+            aria-label="GitHub"
+            className="text-[#6b6860] hover:text-[#38bdf8] transition-colors duration-300"
           >
-            GitHub
+            <IconGithub className="w-4 h-4" />
           </a>
           <a
             href={siteConfig.linkedin}
             target="_blank"
             rel="noopener noreferrer"
-            className="font-mono text-[9px] text-[#6b6860] tracking-[0.2em] hover:text-[#f0ede6] transition-colors duration-300 uppercase"
+            aria-label="LinkedIn"
+            className="text-[#6b6860] hover:text-[#38bdf8] transition-colors duration-300"
           >
-            LinkedIn
+            <IconLinkedIn className="w-4 h-4" />
           </a>
           <a
             href={`mailto:${siteConfig.email}`}
-            className="font-mono text-[9px] text-[#6b6860] tracking-[0.2em] hover:text-[#f0ede6] transition-colors duration-300 uppercase"
+            aria-label="Email"
+            className="text-[#6b6860] hover:text-[#38bdf8] transition-colors duration-300"
           >
-            Email
+            <IconMail className="w-4 h-4" />
           </a>
         </div>
 

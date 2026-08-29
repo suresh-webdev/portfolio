@@ -20,7 +20,7 @@ export default function IBuildBoth() {
           opacity: 1,
           duration: 1,
           ease: "power3.out",
-          scrollTrigger: { trigger: title, start: "top 80%" },
+          scrollTrigger: { trigger: title, start: "top 95%", toggleActions: "play none none reverse" },
         }
       );
     }
@@ -34,7 +34,7 @@ export default function IBuildBoth() {
           opacity: 1,
           duration: 1,
           ease: "power3.out",
-          scrollTrigger: { trigger: left, start: "top 80%" },
+          scrollTrigger: { trigger: left, start: "top 95%", toggleActions: "play none none reverse" },
         }
       );
       gsap.fromTo(
@@ -45,7 +45,7 @@ export default function IBuildBoth() {
           opacity: 1,
           duration: 1,
           ease: "power3.out",
-          scrollTrigger: { trigger: right, start: "top 80%" },
+          scrollTrigger: { trigger: right, start: "top 95%", toggleActions: "play none none reverse" },
         }
       );
 
@@ -94,7 +94,7 @@ export default function IBuildBoth() {
 
         <div className="grid md:grid-cols-2 gap-1">
           <div ref={leftRef} className="p-10 md:p-14 border border-[rgba(240,237,230,0.08)]">
-            <span className="font-mono text-[9px] text-[#d4a843] tracking-[0.3em] uppercase block mb-6">
+            <span className="font-mono text-[9px] text-[#38bdf8] tracking-[0.3em] uppercase block mb-6">
               01 / Interfaces
             </span>
             <h3
@@ -110,7 +110,7 @@ export default function IBuildBoth() {
           </div>
 
           <div ref={rightRef} className="p-10 md:p-14 border border-[rgba(240,237,230,0.08)] border-l-0 md:border-l">
-            <span className="font-mono text-[9px] text-[#d4a843] tracking-[0.3em] uppercase block mb-6">
+            <span className="font-mono text-[9px] text-[#38bdf8] tracking-[0.3em] uppercase block mb-6">
               02 / Systems
             </span>
             <h3

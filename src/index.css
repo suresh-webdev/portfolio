@@ -7,7 +7,7 @@
   --color-bg: #0c0c0b;
   --color-fg: #f0ede6;
   --color-muted: #6b6860;
-  --color-accent: #d4a843;
+  --color-accent: #38bdf8;
   --color-border: rgba(240, 237, 230, 0.1);
   --font-display: 'Barlow Condensed', sans-serif;
   --font-body: 'Inter', sans-serif;
@@ -50,7 +50,7 @@ body {
 
 /* Selection */
 ::selection {
-  background: rgba(212, 168, 67, 0.25);
+  background: rgba(56, 189, 248, 0.25);
   color: #f0ede6;
 }
 

@@ -98,7 +98,7 @@ export default function Navigation() {
           <button
             key={link.href}
             onClick={() => scrollTo(link.href)}
-            className="font-display text-4xl font-bold tracking-widest text-[#f0ede6] uppercase hover:text-[#d4a843] transition-colors duration-300"
+            className="font-display text-4xl font-bold tracking-widest text-[#f0ede6] uppercase hover:text-[#38bdf8] transition-colors duration-300"
           >
             {link.label}
           </button>

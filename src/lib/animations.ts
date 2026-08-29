@@ -83,8 +83,8 @@ export function scrollReveal(elements: NodeListOf<Element> | Element[], options:
         ease: "power3.out",
         scrollTrigger: {
           trigger: el,
-          start: "top 85%",
-          toggleActions: "play none none none",
+          start: "top 95%",
+          toggleActions: "play none none reverse",
           ...options,
         },
         delay: i * 0.07,

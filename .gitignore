@@ -1,4 +1,5 @@
 node_modules/
+/raw-recordings/
 dist/
 build/
 .cache/

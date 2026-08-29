@@ -3,18 +3,21 @@ import { gsap, splitChars, attachMagnetic } from "../lib/animations";
 import { siteConfig } from "../data/siteConfig";
 import SectionLabel from "./SectionLabel";
 import GhostNumeral from "./GhostNumeral";
+import { IconMail, IconLinkedIn, IconGithub } from "./icons";
 
 export default function Contact() {
-  const titleRef = useRef<HTMLHeadingElement>(null);
+  const titleLine1Ref = useRef<HTMLSpanElement>(null);
+  const titleLine2Ref = useRef<HTMLSpanElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
-    const title = titleRef.current;
+    const line1 = titleLine1Ref.current;
+    const line2 = titleLine2Ref.current;
     const content = contentRef.current;
 
-    if (title) {
-      const chars = splitChars(title);
+    if (line1 && line2) {
+      const chars = [...splitChars(line1), ...splitChars(line2)];
 
       gsap.fromTo(
         chars,
@@ -25,7 +28,7 @@ export default function Contact() {
           duration: 0.7,
           stagger: 0.03,
           ease: "power3.out",
-          scrollTrigger: { trigger: title, start: "top 80%" },
+          scrollTrigger: { trigger: line1, start: "top 95%", toggleActions: "play none none reverse" },
         }
       );
     }
@@ -38,7 +41,7 @@ export default function Contact() {
           y: 0,
           opacity: 1,
           duration: 0.8,
-          scrollTrigger: { trigger: content, start: "top 85%" },
+          scrollTrigger: { trigger: content, start: "top 95%", toggleActions: "play none none reverse" },
         }
       );
     }
@@ -54,11 +57,13 @@ export default function Contact() {
 
         <div className="overflow-hidden mb-12">
           <h2
-            ref={titleRef}
             className="font-display font-black uppercase text-[#f0ede6]"
             style={{ fontSize: "clamp(48px, 8vw, 120px)", lineHeight: 0.9, letterSpacing: "-0.02em" }}
           >
-            LET'S BUILD SOMETHING.
+            <span ref={titleLine1Ref}>LET'S BUILD </span>
+            <span ref={titleLine2Ref} className="block md:inline">
+              SOMETHING.
+            </span>
           </h2>
         </div>
 
@@ -69,50 +74,52 @@ export default function Contact() {
 
           <a
             ref={ctaRef}
-            href={`mailto:${siteConfig.email}`}
+            href={siteConfig.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
             data-cursor
-            data-cursor-label="OPEN →"
-            className="inline-flex items-center gap-4 group mb-16"
+            data-cursor-label="MESSAGE →"
+            className="inline-flex items-center gap-4 group mb-10 border border-[rgba(240,237,230,0.2)] px-7 py-4 hover:border-[#38bdf8] hover:bg-[rgba(56,189,248,0.06)] transition-colors duration-300"
           >
-            <span className="font-display font-bold text-[#f0ede6] text-xl md:text-2xl tracking-tight uppercase group-hover:text-[#d4a843] transition-colors duration-300">
+            <span className="font-display font-bold text-[#f0ede6] text-xl md:text-2xl tracking-tight uppercase group-hover:text-[#38bdf8] transition-colors duration-300">
               GET IN TOUCH
             </span>
-            <span className="font-mono text-[#d4a843] text-xl group-hover:translate-x-3 transition-transform duration-300 inline-block">
+            <span className="font-mono text-[#38bdf8] text-xl group-hover:translate-x-3 transition-transform duration-300 inline-block">
               →
             </span>
           </a>
 
-          <div className="flex flex-col md:flex-row gap-6 md:gap-12">
+          <div className="flex items-center gap-3">
             <a
               href={`mailto:${siteConfig.email}`}
-              className="flex flex-col gap-1 group"
+              data-cursor
+              data-cursor-label="EMAIL"
+              aria-label="Email"
+              className="w-11 h-11 flex items-center justify-center border border-[rgba(240,237,230,0.15)] text-[#6b6860] hover:text-[#38bdf8] hover:border-[#38bdf8] transition-colors duration-300"
             >
-              <span className="font-mono text-[9px] text-[#6b6860] tracking-[0.25em] uppercase">Email</span>
-              <span className="font-body text-[#f0ede6] text-sm group-hover:text-[#d4a843] transition-colors duration-300">
-                {siteConfig.email}
-              </span>
+              <IconMail className="w-4 h-4" />
             </a>
             <a
               href={siteConfig.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex flex-col gap-1 group"
+              data-cursor
+              data-cursor-label="LINKEDIN"
+              aria-label="LinkedIn"
+              className="w-11 h-11 flex items-center justify-center border border-[rgba(240,237,230,0.15)] text-[#6b6860] hover:text-[#38bdf8] hover:border-[#38bdf8] transition-colors duration-300"
             >
-              <span className="font-mono text-[9px] text-[#6b6860] tracking-[0.25em] uppercase">LinkedIn</span>
-              <span className="font-body text-[#f0ede6] text-sm group-hover:text-[#d4a843] transition-colors duration-300">
-                linkedin.com/in/s-u-r-e-s-h
-              </span>
+              <IconLinkedIn className="w-4 h-4" />
             </a>
             <a
               href={siteConfig.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex flex-col gap-1 group"
+              data-cursor
+              data-cursor-label="GITHUB"
+              aria-label="GitHub"
+              className="w-11 h-11 flex items-center justify-center border border-[rgba(240,237,230,0.15)] text-[#6b6860] hover:text-[#38bdf8] hover:border-[#38bdf8] transition-colors duration-300"
             >
-              <span className="font-mono text-[9px] text-[#6b6860] tracking-[0.25em] uppercase">GitHub</span>
-              <span className="font-body text-[#f0ede6] text-sm group-hover:text-[#d4a843] transition-colors duration-300">
-                github.com/suresh-webdev
-              </span>
+              <IconGithub className="w-4 h-4" />
             </a>
           </div>
         </div>

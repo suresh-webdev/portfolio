@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import Lenis from "lenis";
 import { ScrollTrigger } from "./lib/animations";
+import AmbientBackground from "./components/system/AmbientBackground";
 import CustomCursor from "./components/CustomCursor";
 import Navigation from "./components/Navigation";
 import Hero from "./components/Hero";
@@ -47,6 +48,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen" style={{ background: "#0c0c0b" }}>
+      <AmbientBackground />
       <CustomCursor />
       <Navigation />
       <main>

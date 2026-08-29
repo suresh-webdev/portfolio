@@ -39,16 +39,13 @@ export default function Hero() {
 
   return (
     <section className="relative min-h-screen flex flex-col justify-end pb-20 px-8 md:px-12 overflow-hidden">
-      {/* Background grid */}
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="absolute top-0 left-0 right-0 pointer-events-none"
         style={{
-          backgroundImage:
-            "linear-gradient(rgba(240,237,230,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(240,237,230,0.03) 1px, transparent 1px)",
-          backgroundSize: "80px 80px",
+          height: "60vh",
+          background: "linear-gradient(rgba(56, 189, 248,0.15) 0%, rgba(56, 189, 248,0) 77%)",
         }}
       />
-
       <GhostNumeral value="01" />
 
       <div className="relative z-10 max-w-7xl">
@@ -65,12 +62,8 @@ export default function Hero() {
 
         {/* Role */}
         <div ref={roleRef} className="invisible flex items-center gap-4 mb-6 mt-4">
-          <span className="font-mono text-[11px] text-[#d4a843] tracking-[0.3em] uppercase">
+          <span className="font-mono text-[11px] text-[#38bdf8] tracking-[0.3em] uppercase">
             {siteConfig.role}
-          </span>
-          <span className="text-[#6b6860] font-mono text-[11px]">·</span>
-          <span className="font-mono text-[11px] text-[#6b6860] tracking-[0.2em] uppercase">
-            Full-Stack Engineering
           </span>
         </div>
 
@@ -112,7 +105,7 @@ export default function Hero() {
         </span>
         <div className="w-px h-12 bg-[#6b6860] relative overflow-hidden">
           <div
-            className="absolute top-0 left-0 w-full bg-[#d4a843]"
+            className="absolute top-0 left-0 w-full bg-[#38bdf8]"
             style={{
               height: "40%",
               animation: "scrollLine 2s ease-in-out infinite",

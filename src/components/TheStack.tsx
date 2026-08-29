@@ -21,7 +21,7 @@ export default function TheStack() {
           opacity: 1,
           duration: 1,
           ease: "power3.out",
-          scrollTrigger: { trigger: title, start: "top 80%" },
+          scrollTrigger: { trigger: title, start: "top 95%", toggleActions: "play none none reverse" },
         }
       );
     }
@@ -38,7 +38,7 @@ export default function TheStack() {
             opacity: 1,
             duration: 0.6,
             ease: "power2.out",
-            scrollTrigger: { trigger: row, start: "top 88%" },
+            scrollTrigger: { trigger: row, start: "top 95%", toggleActions: "play none none reverse" },
             delay: i * 0.03,
           }
         );
@@ -63,7 +63,7 @@ export default function TheStack() {
         <div ref={groupsRef} className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-[rgba(240,237,230,0.06)]">
           {skills.map((group) => (
             <div key={group.category} className="skill-group bg-[#0c0c0b] p-8">
-              <span className="font-mono text-[9px] text-[#d4a843] tracking-[0.3em] uppercase block mb-6">
+              <span className="font-mono text-[9px] text-[#38bdf8] tracking-[0.3em] uppercase block mb-6">
                 {group.category}
               </span>
               <div className="flex flex-col gap-2">

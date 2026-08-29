@@ -22,20 +22,8 @@ export const skills: SkillGroup[] = [
     ],
   },
   {
-    category: "RELIABILITY & PERFORMANCE",
-    items: [
-      "Latency Optimization",
-      "Query Optimization",
-      "Indexing",
-      "Caching",
-      "Performance Profiling",
-      "Monitoring",
-      "Production Support",
-    ],
-  },
-  {
     category: "DATABASES",
-    items: ["MongoDB", "MySQL", "SQL Server", "Relational Schema Design", "Qdrant"],
+    items: ["MongoDB", "MySQL", "SQL Server", "Qdrant"],
   },
   {
     category: "CLOUD & INFRASTRUCTURE",
@@ -47,7 +35,6 @@ export const skills: SkillGroup[] = [
       "React.js",
       "Redux",
       "Next.js",
-      "Reusable Component Libraries",
       "DOM Manipulation",
       "GSAP",
       "Tailwind CSS",

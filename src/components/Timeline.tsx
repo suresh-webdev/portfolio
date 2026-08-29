@@ -4,12 +4,16 @@ import SectionLabel from "./SectionLabel";
 import GhostNumeral from "./GhostNumeral";
 import { experience } from "../data/experience";
 
+const LINE_OFFSET = 200;
+
 export default function Timeline() {
   const listRef = useRef<HTMLDivElement>(null);
+  const progressRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const list = listRef.current;
     if (!list) return;
+
     const items = list.querySelectorAll(".timeline-item");
     items.forEach((item) => {
       gsap.fromTo(
@@ -20,10 +24,27 @@ export default function Timeline() {
           opacity: 1,
           duration: 0.6,
           ease: "power2.out",
-          scrollTrigger: { trigger: item, start: "top 88%" },
+          scrollTrigger: { trigger: item, start: "top 95%", toggleActions: "play none none reverse" },
         }
       );
     });
+
+    if (progressRef.current) {
+      gsap.fromTo(
+        progressRef.current,
+        { scaleY: 0 },
+        {
+          scaleY: 1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: list,
+            start: "top 75%",
+            end: "bottom 60%",
+            scrub: 0.5,
+          },
+        }
+      );
+    }
   }, []);
 
   return (
@@ -39,14 +60,31 @@ export default function Timeline() {
           TIMELINE
         </h2>
 
-        <div ref={listRef} className="flex flex-col">
+        <div ref={listRef} className="relative flex flex-col">
+          {/* Connecting line: faint track plus a scroll-scrubbed accent
+              segment that draws downward as the reader moves through the
+              entries below it. */}
+          <div
+            className="hidden md:block absolute top-0 bottom-0 w-px bg-[rgba(240,237,230,0.1)]"
+            style={{ left: LINE_OFFSET }}
+          />
+          <div
+            ref={progressRef}
+            className="hidden md:block absolute top-0 w-px h-full bg-[#38bdf8] origin-top"
+            style={{ left: LINE_OFFSET, transform: "scaleY(0)" }}
+          />
+
           {experience.map((entry, i) => (
             <div
               key={i}
-              className="timeline-item border-t border-[rgba(240,237,230,0.1)] py-12 grid md:grid-cols-[200px_1fr] gap-8"
+              className="timeline-item relative border-t border-[rgba(240,237,230,0.1)] py-12 grid md:grid-cols-[200px_1fr] gap-8"
             >
+              <div
+                className="hidden md:block absolute w-2.5 h-2.5 rounded-full bg-[#38bdf8] border-2 border-[#0c0c0b]"
+                style={{ left: LINE_OFFSET - 5, top: 52 }}
+              />
               <div>
-                <span className="font-mono text-[9px] text-[#d4a843] tracking-[0.2em] block leading-relaxed">
+                <span className="font-mono text-[9px] text-[#38bdf8] tracking-[0.2em] block leading-relaxed">
                   {entry.period}
                 </span>
               </div>
@@ -70,7 +108,7 @@ export default function Timeline() {
                   <div className="flex flex-col gap-2">
                     {entry.highlights.map((h) => (
                       <div key={h} className="flex items-start gap-3">
-                        <span className="text-[#d4a843] font-mono text-[10px] mt-0.5">→</span>
+                        <span className="text-[#38bdf8] font-mono text-[10px] mt-0.5">→</span>
                         <span className="font-mono text-[10px] text-[#f0ede6] opacity-70 tracking-wide">{h}</span>
                       </div>
                     ))}
@@ -79,56 +117,6 @@ export default function Timeline() {
               </div>
             </div>
           ))}
-        </div>
-
-        {/* Education */}
-        <div className="border-t border-[rgba(240,237,230,0.1)] py-12 mt-4">
-          <div className="grid md:grid-cols-[200px_1fr] gap-8">
-            <div>
-              <span className="font-mono text-[9px] text-[#d4a843] tracking-[0.2em] block">2021 — 2025</span>
-            </div>
-            <div>
-              <h3 className="font-display font-bold uppercase text-[#f0ede6] text-xl md:text-2xl tracking-tight mb-1">
-                B.Tech — Information Technology
-              </h3>
-              <span className="font-mono text-[10px] text-[#6b6860] tracking-[0.2em] uppercase block mb-4">
-                SNS College of Engineering, Coimbatore
-              </span>
-              <span className="font-mono text-[9px] text-[#d4a843] tracking-[0.2em]">GPA: 8.7 / 10</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Additional */}
-        <div className="border-t border-[rgba(240,237,230,0.06)] pt-10">
-          <div className="grid md:grid-cols-[200px_1fr] gap-8">
-            <div>
-              <span className="font-mono text-[9px] text-[#6b6860] tracking-[0.2em] block">Additional</span>
-            </div>
-            <div className="flex flex-wrap gap-8">
-              <div>
-                <span className="font-display font-bold text-[#f0ede6] text-2xl block mb-1">100+</span>
-                <span className="font-mono text-[9px] text-[#6b6860] tracking-[0.2em] uppercase">
-                  LeetCode Problems
-                </span>
-              </div>
-              <div>
-                <span className="font-mono text-[9px] text-[#6b6860] tracking-[0.2em] uppercase block mb-2">
-                  Certifications
-                </span>
-                <div className="flex gap-3 flex-wrap">
-                  {["NPTEL", "Coursera", "Udemy"].map((cert) => (
-                    <span
-                      key={cert}
-                      className="font-mono text-[9px] text-[#6b6860] border border-[rgba(240,237,230,0.08)] px-2.5 py-1"
-                    >
-                      {cert}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </section>

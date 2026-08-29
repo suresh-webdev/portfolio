@@ -74,13 +74,13 @@ export default function CustomCursor() {
           className="w-full h-full rounded-full border border-[#f0ede6] flex items-center justify-center transition-all duration-300"
           style={{
             transform: expanded ? "scale(3)" : "scale(1)",
-            background: expanded ? "rgba(212,168,67,0.15)" : "transparent",
-            borderColor: expanded ? "#d4a843" : "#f0ede6",
+            background: expanded ? "rgba(56, 189, 248,0.15)" : "transparent",
+            borderColor: expanded ? "#38bdf8" : "#f0ede6",
           }}
         >
           {expanded && (
             <span
-              className="text-[5px] font-mono text-[#d4a843] tracking-widest font-medium whitespace-nowrap"
+              className="text-[5px] font-mono text-[#38bdf8] tracking-widest font-medium whitespace-nowrap"
               style={{ fontSize: "4.5px" }}
             >
               {label}
@@ -90,7 +90,7 @@ export default function CustomCursor() {
       </div>
       <div
         ref={dotRef}
-        className="fixed top-0 left-0 z-[9999] pointer-events-none w-[6px] h-[6px] rounded-full bg-[#d4a843]"
+        className="fixed top-0 left-0 z-[9999] pointer-events-none w-[6px] h-[6px] rounded-full bg-[#38bdf8]"
       />
     </>
   );

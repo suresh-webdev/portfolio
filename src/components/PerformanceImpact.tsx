@@ -20,7 +20,11 @@ export default function PerformanceImpact() {
     const metricsEl = metricsRef.current;
 
     const tl = gsap.timeline({
-      scrollTrigger: { trigger: from?.parentElement?.parentElement, start: "top 70%" },
+      scrollTrigger: {
+        trigger: from?.parentElement?.parentElement,
+        start: "top 95%",
+        toggleActions: "play none none reverse",
+      },
     });
 
     if (from) tl.fromTo(from, { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: "power3.out" }, 0);
@@ -47,7 +51,7 @@ export default function PerformanceImpact() {
           duration: 0.7,
           stagger: 0.1,
           ease: "power3.out",
-          scrollTrigger: { trigger: metricsEl, start: "top 80%" },
+          scrollTrigger: { trigger: metricsEl, start: "top 95%", toggleActions: "play none none reverse" },
         }
       );
     }
@@ -58,7 +62,7 @@ export default function PerformanceImpact() {
       <GhostNumeral value="08" />
       <div className="max-w-7xl mx-auto">
         <div className="mb-6">
-          <span className="font-mono text-[9px] text-[#d4a843] tracking-[0.3em] uppercase">
+          <span className="font-mono text-[9px] text-[#38bdf8] tracking-[0.3em] uppercase">
             08 / Engineering Impact
           </span>
         </div>
@@ -77,9 +81,9 @@ export default function PerformanceImpact() {
               ref={arrowRef}
               className="flex items-center gap-2 origin-left"
             >
-              <div className="w-12 md:w-24 h-px bg-[#d4a843]" />
+              <div className="w-12 md:w-24 h-px bg-[#38bdf8]" />
               <span
-                className="font-display font-bold text-[#d4a843]"
+                className="font-display font-bold text-[#38bdf8]"
                 style={{ fontSize: "clamp(24px, 4vw, 48px)" }}
               >
                 →
@@ -95,11 +99,7 @@ export default function PerformanceImpact() {
           </div>
 
           <div ref={pctRef} className="mt-4">
-            <span className="font-mono text-[10px] text-[#d4a843] tracking-[0.3em] uppercase">Core API Latency</span>
-            <span className="font-display font-black text-[rgba(240,237,230,0.08)] ml-4"
-              style={{ fontSize: "clamp(32px, 6vw, 80px)" }}>
-              90%
-            </span>
+            <span className="font-mono text-[10px] text-[#38bdf8] tracking-[0.3em] uppercase">Core API Latency</span>
           </div>
         </div>
 

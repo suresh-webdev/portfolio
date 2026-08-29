@@ -1,16 +1,29 @@
 <!doctype html>
-<html lang="<!-- figma:lang -->">
+<html lang="en">
   <head>
-    <!-- figma:head-start -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><!-- figma:title --></title>
-    <!-- figma:head-end -->
+
+    <!-- Description, robots, og:title/description and the favicon link are
+         injected at build time by the figma-site-configuration Vite plugin,
+         sourced from .figma/make/site.json — keep that file as the source of
+         truth for those instead of duplicating them here. -->
+    <title>Suresh S — Full-Stack Engineer</title>
+    <meta name="author" content="Suresh S" />
+    <meta name="theme-color" content="#0c0c0b" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Suresh S" />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Suresh S — Full-Stack Engineer" />
+    <meta
+      name="twitter:description"
+      content="Portfolio of Suresh S, a full-stack engineer building production systems across APIs, data, infrastructure and interfaces."
+    />
   </head>
   <body>
-    <!-- figma:body-start -->
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-    <!-- figma:body-end -->
   </body>
 </html>

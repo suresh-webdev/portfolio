@@ -27,7 +27,7 @@ function FeatureBlock({
         opacity: 1,
         duration: 1,
         ease: "power3.out",
-        scrollTrigger: { trigger: el, start: "top 82%" },
+        scrollTrigger: { trigger: el, start: "top 95%", toggleActions: "play none none reverse" },
       }
     );
   }, []);
@@ -38,7 +38,7 @@ function FeatureBlock({
       className="border-t border-[rgba(240,237,230,0.1)] py-16 grid md:grid-cols-2 gap-12 items-center"
     >
       <div>
-        <span className="font-mono text-[9px] text-[#d4a843] tracking-[0.3em] block mb-6">{index}</span>
+        <span className="font-mono text-[9px] text-[#38bdf8] tracking-[0.3em] block mb-6">{index}</span>
         <h3
           className="font-display font-black uppercase text-[#f0ede6] mb-6"
           style={{ fontSize: "clamp(28px, 3.5vw, 48px)", lineHeight: 0.95, letterSpacing: "-0.01em" }}
@@ -50,7 +50,7 @@ function FeatureBlock({
           {tech.map((t) => (
             <span
               key={t}
-              className="font-mono text-[9px] tracking-[0.2em] text-[#d4a843] border border-[rgba(212,168,67,0.25)] px-2.5 py-1 uppercase"
+              className="font-mono text-[9px] tracking-[0.2em] text-[#38bdf8] border border-[rgba(56, 189, 248,0.25)] px-2.5 py-1 uppercase"
             >
               {t}
             </span>
@@ -82,9 +82,9 @@ function RAGVisual() {
         <div className="flex flex-col gap-1">
           {["0.94", "0.87", "0.81", "0.73"].map((score, i) => (
             <div key={i} className="flex items-center gap-2">
-              <span className="font-mono text-[9px] text-[#d4a843]">{score}</span>
+              <span className="font-mono text-[9px] text-[#38bdf8]">{score}</span>
               <div
-                className="h-px bg-[#d4a843]"
+                className="h-px bg-[#38bdf8]"
                 style={{ width: `${parseFloat(score) * 60}px`, opacity: parseFloat(score) }}
               />
             </div>
@@ -116,8 +116,8 @@ function CRDTVisual() {
         ))}
       </div>
       <div className="flex justify-center">
-        <div className="border border-[#d4a843] px-6 py-3">
-          <span className="font-mono text-[9px] text-[#d4a843] tracking-widest">SHARED STATE</span>
+        <div className="border border-[#38bdf8] px-6 py-3">
+          <span className="font-mono text-[9px] text-[#38bdf8] tracking-widest">SHARED STATE</span>
         </div>
       </div>
       <div className="flex justify-between mt-4">
@@ -149,7 +149,7 @@ function InfraVisual() {
             >
               <span
                 className="font-mono text-[9px] tracking-[0.25em] uppercase"
-                style={{ color: i === 0 ? "#f0ede6" : i === 4 ? "#d4a843" : "#6b6860" }}
+                style={{ color: i === 0 ? "#f0ede6" : i === 4 ? "#38bdf8" : "#6b6860" }}
               >
                 {layer}
               </span>
