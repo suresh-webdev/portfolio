@@ -1,0 +1,69 @@
+# Builds the Vite app and publishes it to GitHub Pages.
+#
+# GitHub's "Deploy from a branch" and "Static HTML" presets serve the
+# repository as-is — they have no build step, so index.html would still point
+# at /src/main.tsx and every page would ship blank. This project has to be
+# built first, which is what this workflow does before handing the *output*
+# to Pages.
+#
+# The site is served from https://suresh-webdev.github.io/portfolio/ — a
+# project page, not a user page — so every build needs the base path set to
+# /portfolio/ or the asset and font URLs in the emitted HTML would resolve
+# against the domain root instead of the app's own path.
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  # Lets this be re-run by hand from the Actions tab without a new commit.
+  workflow_dispatch:
+
+# Pages deployments should never overlap; a push mid-deploy should replace the
+# one in flight rather than queue behind it.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # pnpm has to be on PATH before setup-node's cache step runs, since that
+      # step shells out to the package manager to resolve the cache key.
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.34.3
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm run build
+        env:
+          # Read by vite.config.ts to prefix every emitted asset URL —
+          # otherwise identical to how the Figma Make preview build sets it.
+          FIGMA_PUBLIC_URL: /portfolio
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
