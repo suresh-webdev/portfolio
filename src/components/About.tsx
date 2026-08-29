@@ -40,12 +40,12 @@ export default function About() {
           </div>
           <div className="flex flex-col gap-8">
             <p className="about-line font-body text-[#f0ede6] text-lg leading-relaxed opacity-80">
-              I enjoy working on difficult engineering problems — performance, reliability, APIs, data,
-              infrastructure and the interfaces that bring everything together.
+              I like hard engineering problems: performance, reliability, the data and infrastructure underneath,
+              and the interfaces that tie it together.
             </p>
             <p className="about-line font-body text-[#6b6860] text-base leading-relaxed">
-              My work spans backend systems, cloud infrastructure, AI-powered workflows and interactive frontend
-              experiences. I don't only build APIs. I can own the contract from data model to screen.
+              Day to day that's backend systems, cloud infrastructure, AI-powered workflows, and the frontend
+              on top of all of it. I don't only build APIs. I own the contract from data model to screen.
             </p>
             <div className="about-line flex flex-wrap gap-2 pt-4">
               {["DATA MODEL", "API", "BACKEND", "SERVICES", "INFRASTRUCTURE", "INTERFACE"].map((step, i, arr) => (

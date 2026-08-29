@@ -181,7 +181,7 @@ export default function Interfaces() {
             INTERFACES
           </h2>
           <p ref={subtitleRef} className="font-body text-[#6b6860] text-base md:text-lg max-w-lg leading-relaxed">
-            Interactive interfaces where frontend engineering, motion and visual execution meet.
+            A handful of frontend builds where interaction and motion mattered as much as the code.
           </p>
         </div>
 

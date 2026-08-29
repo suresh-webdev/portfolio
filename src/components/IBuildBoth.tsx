@@ -104,8 +104,8 @@ export default function IBuildBoth() {
               INTERFACES
             </h3>
             <p className="font-body text-[#6b6860] text-base leading-relaxed">
-              Interactive frontend experiences. Responsive interfaces consuming real APIs. Motion and visual
-              execution under production performance budgets.
+              Frontend work that has to hold up in production — responsive interfaces wired to real APIs, with
+              motion and visual polish kept inside real performance budgets.
             </p>
           </div>
 
@@ -120,8 +120,8 @@ export default function IBuildBoth() {
               SYSTEMS
             </h3>
             <p className="font-body text-[#6b6860] text-base leading-relaxed">
-              APIs, services, data and infrastructure. End-to-end ownership from data model to deployment.
-              Performance, reliability and production support.
+              The backend side — APIs, services, data and infrastructure — owned end-to-end from data model
+              through deployment, then kept running after that.
             </p>
           </div>
         </div>

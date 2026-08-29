@@ -19,7 +19,7 @@ export const projects: Project[] = [
     title: "THE REALM",
     category: "Interactive Web Experience",
     description:
-      "Interactive digital experience with a strong focus on frontend execution, animation and visual interaction.",
+      "Frontend and interaction work on a real estate concierge platform — animation and visual execution were the focus.",
     technologies: ["NEXT.JS", "GSAP", "FRONTEND", "INTERACTION"],
     url: "https://therealm.in/",
     image: "/projects/the-realm-live.jpg",
@@ -32,7 +32,7 @@ export const projects: Project[] = [
     title: "CLIMATY AI",
     category: "AI / Interactive Interface",
     description:
-      "AI product experience with a strong focus on interface design, frontend implementation and interaction.",
+      "Built the interface layer for this AI climate product — interaction design and frontend implementation, mostly.",
     technologies: ["REACT", "NEXT.JS", "GSAP", "AI"],
     url: "https://climaty.ai/",
     image: "/projects/climaty-ai-live.jpg",
@@ -45,7 +45,7 @@ export const projects: Project[] = [
     title: "KAI",
     category: "AI Chatbot for Education",
     description:
-      "AI admissions assistant and chatbot interface for education institutions, built with a strong focus on interaction and visual execution.",
+      "An AI chatbot for education admissions teams. My part was the interaction layer and visual execution, not the AI underneath.",
     technologies: ["REACT", "GSAP", "FRONTEND", "AI"],
     url: "https://kai.ken42.com/",
     image: "/projects/kai-live.jpg",
