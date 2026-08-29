@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  A single entry. This is a one-page site: every section (work, products,
+  systems, timeline, contact) is an anchor on the same document, not a
+  separate route, so there is exactly one indexable URL to list — listing the
+  #hash anchors as separate <url> entries would just tell Google to index the
+  same page five times under different fragments.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://suresh-webdev.github.io/portfolio/</loc>
+    <lastmod>2026-08-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>
