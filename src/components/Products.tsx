@@ -3,6 +3,8 @@ import { gsap } from "../lib/animations";
 import SectionLabel from "./SectionLabel";
 import GhostNumeral from "./GhostNumeral";
 
+const LINE_OFFSET = 200;
+
 interface ProductProps {
   number: string;
   title: string;
@@ -33,8 +35,12 @@ function ProductCase({ number, title, category, description, highlights, technol
   }, []);
 
   return (
-    <div ref={blockRef} className="border-t border-[rgba(240,237,230,0.1)] pt-12 pb-16">
-      <div className="grid md:grid-cols-[1fr_2fr] gap-8 md:gap-16">
+    <div ref={blockRef} className="relative border-t border-[rgba(240,237,230,0.1)] pt-12 pb-16">
+      <div
+        className="hidden md:block absolute w-2.5 h-2.5 rounded-full bg-[#38bdf8] border-2 border-[#0c0c0b]"
+        style={{ left: LINE_OFFSET - 5, top: 48 }}
+      />
+      <div className="grid md:grid-cols-[200px_2fr] gap-8 md:gap-16">
         <div>
           <span className="font-mono text-[#38bdf8] text-[11px] tracking-[0.3em] block mb-3">{number}</span>
           <span className="font-mono text-[9px] text-[#6b6860] tracking-[0.2em] uppercase">{category}</span>
@@ -87,10 +93,13 @@ function ProductCase({ number, title, category, description, highlights, technol
 export default function Products() {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
+  const progressRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const title = titleRef.current;
     const subtitle = subtitleRef.current;
+    const list = listRef.current;
 
     if (title) {
       gsap.fromTo(
@@ -116,13 +125,30 @@ export default function Products() {
         }
       );
     }
+
+    if (list && progressRef.current) {
+      gsap.fromTo(
+        progressRef.current,
+        { scaleY: 0 },
+        {
+          scaleY: 1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: list,
+            start: "top 75%",
+            end: "bottom 60%",
+            scrub: 0.5,
+          },
+        }
+      );
+    }
   }, []);
 
   return (
     <section id="engineering" className="relative py-24 md:py-32 px-8 md:px-12 overflow-hidden">
-      <GhostNumeral value="05" />
+      <GhostNumeral value="04" />
       <div className="max-w-7xl mx-auto">
-        <SectionLabel index="05" label="Product & Engineering Work" />
+        <SectionLabel index="04" label="Product & Engineering Work" />
 
         <h2
           ref={titleRef}
@@ -135,36 +161,50 @@ export default function Products() {
           Beyond the interface. Building systems, APIs and infrastructure that power real products.
         </p>
 
-        <ProductCase
-          number="01 / 02"
-          title="FINNULATE AI"
-          category="Fintech Compliance Platform"
-          description="End-to-end ownership of five core production modules on Finnulate AI, a fintech compliance platform. Responsible for the full contract from data model to API to implementation to interface to deployment."
-          highlights={[
-            "API contract design and implementation",
-            "Data model design and schema evolution",
-            "Backend implementation and production support",
-            "React interfaces consuming APIs",
-            "Third-party integrations",
-            "Deployment and infrastructure ownership",
-          ]}
-          technologies={["NODE.JS", "PYTHON", "EXPRESS.JS", "FASTAPI", "MONGODB", "NEO4J", "AWS", "REACT"]}
-        />
+        <div ref={listRef} className="relative">
+          {/* Same connecting-line device as Timeline — a faint track plus a
+              scroll-scrubbed accent segment drawing down through the cases. */}
+          <div
+            className="hidden md:block absolute top-0 bottom-0 w-px bg-[rgba(240,237,230,0.1)]"
+            style={{ left: LINE_OFFSET }}
+          />
+          <div
+            ref={progressRef}
+            className="hidden md:block absolute top-0 w-px h-full bg-[#38bdf8] origin-top"
+            style={{ left: LINE_OFFSET, transform: "scaleY(0)" }}
+          />
 
-        <ProductCase
-          number="02 / 02"
-          title="AUDITEE AI"
-          category="AI Ad Auditing Platform"
-          description="Built the backend of an internal AI ad-auditing tool from the ground up: authentication and authorization, file processing and data pipelines. The system ran in production for approximately 20 operations users before the project was wound down due to budget."
-          highlights={[
-            "Authentication and authorization system",
-            "File processing and data pipelines",
-            "Backend architecture from scratch",
-            "Production deployment and support",
-          ]}
-          technologies={["NODE.JS", "APIS", "AUTHENTICATION", "DATA PIPELINES", "AI"]}
-          note="Ran in production for ~20 operations users. Project was wound down due to budget. This is an honest account, and it makes for a stronger story."
-        />
+          <ProductCase
+            number="01 / 02"
+            title="FINNULATE AI"
+            category="Fintech Compliance Platform"
+            description="End-to-end ownership of five core production modules on Finnulate AI, a fintech compliance platform. Responsible for the full contract from data model to API to implementation to interface to deployment."
+            highlights={[
+              "API contract design and implementation",
+              "Data model design and schema evolution",
+              "Backend implementation and production support",
+              "React interfaces consuming APIs",
+              "Third-party integrations",
+              "Deployment and infrastructure ownership",
+            ]}
+            technologies={["NODE.JS", "PYTHON", "EXPRESS.JS", "FASTAPI", "MONGODB", "NEO4J", "AWS", "REACT"]}
+          />
+
+          <ProductCase
+            number="02 / 02"
+            title="AUDITEE AI"
+            category="AI Ad Auditing Platform"
+            description="Built the backend of an internal AI ad-auditing tool from the ground up: authentication and authorization, file processing and data pipelines. The system ran in production for approximately 20 operations users before the project was wound down due to budget."
+            highlights={[
+              "Authentication and authorization system",
+              "File processing and data pipelines",
+              "Backend architecture from scratch",
+              "Production deployment and support",
+            ]}
+            technologies={["NODE.JS", "APIS", "AUTHENTICATION", "DATA PIPELINES", "AI"]}
+            note="Ran in production for ~20 operations users. Project was wound down due to budget. This is an honest account, and it makes for a stronger story."
+          />
+        </div>
       </div>
     </section>
   );

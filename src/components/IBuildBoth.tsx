@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "../lib/animations";
+import GhostNumeral from "./GhostNumeral";
 
 export default function IBuildBoth() {
   const leftRef = useRef<HTMLDivElement>(null);
@@ -82,7 +83,8 @@ export default function IBuildBoth() {
   }, []);
 
   return (
-    <section className="py-20 md:py-28 px-8 md:px-12 overflow-hidden border-t border-[rgba(240,237,230,0.06)]">
+    <section className="relative py-20 md:py-28 px-8 md:px-12 overflow-hidden border-t border-[rgba(240,237,230,0.06)]">
+      <GhostNumeral value="03" />
       <div className="max-w-7xl mx-auto">
         <h2
           ref={titleRef}

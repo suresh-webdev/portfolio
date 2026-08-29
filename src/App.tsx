@@ -11,7 +11,6 @@ import Products from "./components/Products";
 import PerformanceImpact from "./components/PerformanceImpact";
 import TechnicalFeatures from "./components/TechnicalFeatures";
 import TheStack from "./components/TheStack";
-import About from "./components/About";
 import Timeline from "./components/Timeline";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
@@ -59,7 +58,6 @@ export default function App() {
         <PerformanceImpact />
         <TechnicalFeatures />
         <TheStack />
-        <About />
         <Timeline />
         <Contact />
       </main>

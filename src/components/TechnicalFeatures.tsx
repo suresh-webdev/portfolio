@@ -169,7 +169,7 @@ export default function TechnicalFeatures() {
     <section className="py-16 px-8 md:px-12 border-t border-[rgba(240,237,230,0.06)]">
       <div className="max-w-7xl mx-auto">
         <FeatureBlock
-          index="10 / RAG & Semantic Search"
+          index="06 / RAG & Semantic Search"
           title="SEARCHING THROUGH 1,000+ DOCUMENTS"
           description="Built a RAG-based semantic search system using vector similarity with Qdrant, returning ranked matches across more than 1,000 documents to improve retrieval relevance."
           tech={["RAG", "QDRANT", "VECTOR SEARCH"]}
@@ -177,7 +177,7 @@ export default function TechnicalFeatures() {
         />
 
         <FeatureBlock
-          index="11 / Real-Time Collaboration"
+          index="07 / Real-Time Collaboration"
           title="REAL-TIME, MULTI-USER COLLABORATION"
           description="Implemented real-time multi-user collaborative editing using CRDT-backed replicated state with Yjs and Hocuspocus, enabling conflict-free convergence across concurrent sessions."
           tech={["YJS", "HOCUSPOCUS", "CRDT"]}
@@ -185,7 +185,7 @@ export default function TechnicalFeatures() {
         />
 
         <FeatureBlock
-          index="12 / Infrastructure"
+          index="08 / Infrastructure"
           title="FROM CODE TO PRODUCTION"
           description="Deployed distributed, multi-tier services to Amazon EKS behind a segmented VPC and codified infrastructure using Terraform, reducing manual configuration by approximately 60%."
           tech={["AWS", "EKS", "KUBERNETES", "TERRAFORM", "VPC", "CI/CD"]}

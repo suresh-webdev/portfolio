@@ -49,9 +49,9 @@ export default function Timeline() {
 
   return (
     <section id="timeline" className="relative py-24 md:py-32 px-8 md:px-12 border-t border-[rgba(240,237,230,0.06)] overflow-hidden">
-      <GhostNumeral value="15" />
+      <GhostNumeral value="10" />
       <div className="max-w-7xl mx-auto">
-        <SectionLabel index="15" label="Experience" />
+        <SectionLabel index="10" label="Experience" />
 
         <h2
           className="font-display font-black uppercase text-[#f0ede6] mb-20"

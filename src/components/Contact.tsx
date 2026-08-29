@@ -51,9 +51,9 @@ export default function Contact() {
 
   return (
     <section id="contact" className="relative py-28 md:py-40 px-8 md:px-12 border-t border-[rgba(240,237,230,0.06)] overflow-hidden">
-      <GhostNumeral value="17" />
+      <GhostNumeral value="11" />
       <div className="max-w-7xl mx-auto">
-        <SectionLabel index="17" label="Contact" />
+        <SectionLabel index="11" label="Contact" />
 
         <div className="overflow-hidden mb-12">
           <h2

@@ -59,11 +59,11 @@ export default function PerformanceImpact() {
 
   return (
     <section className="relative py-28 md:py-40 px-8 md:px-12 border-t border-[rgba(240,237,230,0.06)] overflow-hidden">
-      <GhostNumeral value="08" />
+      <GhostNumeral value="05" />
       <div className="max-w-7xl mx-auto">
         <div className="mb-6">
           <span className="font-mono text-[9px] text-[#38bdf8] tracking-[0.3em] uppercase">
-            08 / Engineering Impact
+            05 / Engineering Impact
           </span>
         </div>
 

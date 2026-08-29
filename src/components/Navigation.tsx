@@ -5,7 +5,6 @@ import { siteConfig } from "../data/siteConfig";
 const navLinks = [
   { label: "WORK", href: "#work" },
   { label: "ENGINEERING", href: "#engineering" },
-  { label: "ABOUT", href: "#about" },
   { label: "TIMELINE", href: "#timeline" },
   { label: "CONTACT", href: "#contact" },
 ];
