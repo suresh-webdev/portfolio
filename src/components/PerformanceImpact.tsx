@@ -191,6 +191,12 @@ export default function PerformanceImpact() {
 
         <div className={`relative ${PAD} ${SHELL}`}>
           <div ref={headRef}>
+            {/* The section's accessible name. This screen carries a number and
+                a caption but never a heading, so in the document outline its
+                content hung off nothing and a screen reader announced an
+                unnamed region. Visually the section mark below already says
+                this. */}
+            <h2 className="sr-only">Engineering impact</h2>
             <SectionLabel index="05" label="Engineering Impact" />
           </div>
 

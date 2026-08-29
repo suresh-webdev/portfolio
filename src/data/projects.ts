@@ -1,4 +1,4 @@
-export type ProjectType = "UI" | "PRODUCT" | "ENGINEERING" | "EXPERIMENT";
+export type ProjectType = "UI" | "PRODUCT";
 
 export interface Project {
   id: string;
@@ -9,7 +9,6 @@ export interface Project {
   url?: string;
   image?: string;
   video?: string;
-  featured: boolean;
   type: ProjectType;
 }
 
@@ -24,7 +23,6 @@ export const projects: Project[] = [
     url: "https://therealm.in/",
     image: "/projects/the-realm-live.jpg",
     video: "/projects/the-realm-video.mp4",
-    featured: true,
     type: "UI",
   },
   {
@@ -37,7 +35,6 @@ export const projects: Project[] = [
     url: "https://climaty.ai/",
     image: "/projects/climaty-ai-live.jpg",
     video: "/projects/climaty-ai-video.mp4",
-    featured: true,
     type: "UI",
   },
   {
@@ -50,7 +47,6 @@ export const projects: Project[] = [
     url: "https://kai.ken42.com/",
     image: "/projects/kai-live.jpg",
     video: "/projects/kai-video.mp4",
-    featured: true,
     type: "UI",
   },
   {
@@ -60,7 +56,6 @@ export const projects: Project[] = [
     description:
       "Built the backend of an internal AI ad-auditing tool from the ground up: authentication and authorization, file processing and data pipelines. Ran in production for approximately 20 operations users before the project was wound down due to budget.",
     technologies: ["NODE.JS", "APIS", "AUTHENTICATION", "DATA PIPELINES", "AI"],
-    featured: true,
     type: "PRODUCT",
   },
   {
@@ -70,7 +65,6 @@ export const projects: Project[] = [
     description:
       "End-to-end ownership of five core production modules on Finnulate AI, a fintech compliance platform: API contracts, data models, backend implementation, deployment, production support, and React interfaces.",
     technologies: ["NODE.JS", "PYTHON", "EXPRESS.JS", "FASTAPI", "MONGODB", "NEO4J", "AWS", "REACT"],
-    featured: true,
     type: "PRODUCT",
   },
 ];

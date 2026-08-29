@@ -75,9 +75,7 @@
      into the CSS palette so the surface and the shader finally agree. */
   --color-accent: #ff9d3c;
   --color-ember: #cc6a30;
-  --color-accent-deep: #b3521a;
 
-  --color-border: rgba(240, 237, 230, 0.1);
   --font-display: 'Barlow Condensed', sans-serif;
   --font-body: 'Inter', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
@@ -176,29 +174,12 @@ textarea,
      place the optical settings live so every headline on the page is cut the
      same way. */
   .display {
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: var(--font-display);
     font-weight: 900;
     text-transform: uppercase;
     line-height: 0.86;
     letter-spacing: -0.025em;
     color: #f0ede6;
-  }
-
-  .mono-label {
-    font-family: 'JetBrains Mono', ui-monospace, monospace;
-    font-size: 10px;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: var(--color-muted);
-  }
-
-  /* Small mono is the site's connective tissue, but under ~10px with heavy
-     tracking it stops being readable on a phone. Floor it there. */
-  @media (max-width: 767px) {
-    .mono-label {
-      font-size: 10px;
-      letter-spacing: 0.2em;
-    }
   }
 
   /* A headline that reads as etched into the field rather than sitting on it:

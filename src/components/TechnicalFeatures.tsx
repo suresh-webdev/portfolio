@@ -503,6 +503,9 @@ export default function TechnicalFeatures() {
     <section ref={sectionRef} id="systems" data-section className="relative py-8 md:py-16">
       <GhostNumeral value="06" place="tl" />
       <div className={`relative ${PAD} ${SHELL}`}>
+        {/* As with the impact section: three h3 mechanisms below had no h2
+            above them. */}
+        <h2 className="sr-only">Systems in production</h2>
         <SectionLabel index="06" label="Systems in production" />
 
         <div className="mt-12">

@@ -38,7 +38,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
 
-    <title>Suresh's Portfolio</title>
+    <title>Suresh S — Full-Stack Engineer</title>
     <meta name="author" content="Suresh S" />
     <meta name="theme-color" content="#0c0c0b" />
 
@@ -54,14 +54,46 @@
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="/og.png" />
-    <meta name="twitter:title" content="Suresh's Portfolio" />
+    <meta name="twitter:title" content="Suresh S — Full-Stack Engineer" />
     <meta
       name="twitter:description"
       content="Suresh S — full-stack engineer. I build what powers the product and what people experience."
     />
+
+    <!-- Structured data. The page is client-rendered, so the HTML a crawler
+         first receives is an empty <div id="root">; this is the one part of
+         the document that states who the site is about without waiting for
+         JavaScript. `sameAs` is what ties this page to the GitHub and
+         LinkedIn profiles as one identity rather than three unrelated URLs. -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Suresh S",
+        "jobTitle": "Full-Stack Engineer",
+        "description": "Full-stack engineer. I build what powers the product and what people experience.",
+        "knowsAbout": [
+          "Node.js",
+          "Python",
+          "React",
+          "AWS",
+          "API design",
+          "Distributed systems",
+          "Infrastructure as code"
+        ],
+        "sameAs": [
+          "https://github.com/suresh-webdev",
+          "https://linkedin.com/in/s-u-r-e-s-h"
+        ]
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      Suresh S — Full-Stack Engineer. I build what powers the product and what people experience.
+      Contact: sureshs.professional.career@gmail.com
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

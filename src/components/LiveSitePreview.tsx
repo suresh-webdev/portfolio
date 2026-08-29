@@ -42,7 +42,7 @@ export default function LiveSitePreview({ src, poster, label, active }: Props) {
   }, [active]);
 
   return (
-    <div className="flex flex-col w-full h-full overflow-hidden bg-[#131311]">
+    <div className="flex flex-col w-full h-full overflow-hidden bg-[var(--color-surface)]">
       <div className="flex-none flex items-center gap-2 px-3 py-2 bg-[#0f0f0d] border-b border-[rgba(240,237,230,0.08)]">
         <span className="w-1.5 h-1.5 rounded-full bg-[rgba(240,237,230,0.18)]" />
         <span className="w-1.5 h-1.5 rounded-full bg-[rgba(240,237,230,0.18)]" />

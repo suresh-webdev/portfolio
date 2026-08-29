@@ -7,7 +7,7 @@ gsap.registerPlugin(ScrollTrigger);
 export const prefersReducedMotion = () =>
   typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-export const isTouch = () =>
+const isTouch = () =>
   typeof window !== "undefined" && window.matchMedia("(hover: none)").matches;
 
 // The reduced-motion block in index.css only neutralises CSS animations and

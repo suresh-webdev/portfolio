@@ -21,7 +21,7 @@ export default function IBuildBoth() {
   const stageRef = useRef<HTMLDivElement>(null);
   const aRef = useRef<HTMLDivElement>(null);
   const bRef = useRef<HTMLDivElement>(null);
-  const claimRef = useRef<HTMLParagraphElement>(null);
+  const claimRef = useRef<HTMLHeadingElement>(null);
   const ruleLRef = useRef<HTMLSpanElement>(null);
   const ruleRRef = useRef<HTMLSpanElement>(null);
   const copyARef = useRef<HTMLDivElement>(null);
@@ -193,25 +193,25 @@ export default function IBuildBoth() {
               owns their transforms outright, with no utility-class transform
               to fight over. */}
           <div className="relative">
-            <h2
+            <div
               aria-hidden="true"
               className="display invisible hidden md:block text-center leading-[0.82]"
               style={{ fontSize: "clamp(44px, 12vw, 190px)" }}
             >
               Interfaces
-            </h2>
+            </div>
 
             {/* Solid — the half everybody sees. */}
             <div
               ref={aRef}
               className="relative md:absolute md:inset-0 z-20 flex items-center justify-center"
             >
-              <h2
+              <div
                 className="display display-etched text-center leading-[0.82]"
                 style={{ fontSize: "clamp(44px, 12vw, 190px)" }}
               >
                 Interfaces
-              </h2>
+              </div>
             </div>
 
             {/* The claim, resolving in the gap the separation opens.
@@ -226,12 +226,12 @@ export default function IBuildBoth() {
                 ref={ruleLRef}
                 className="hidden md:block h-px flex-1 max-w-[20vw] origin-right bg-gradient-to-l from-[rgba(240,237,230,0.22)] to-transparent"
               />
-              <p
+              <h2
                 ref={claimRef}
                 className="font-mono text-[11px] md:text-[13px] tracking-[0.34em] uppercase text-[var(--color-accent)] whitespace-nowrap"
               >
                 I build both.
-              </p>
+              </h2>
               <span
                 ref={ruleRRef}
                 className="hidden md:block h-px flex-1 max-w-[20vw] origin-left bg-gradient-to-r from-[rgba(240,237,230,0.22)] to-transparent"
@@ -244,12 +244,12 @@ export default function IBuildBoth() {
               ref={bRef}
               className="relative md:absolute md:inset-0 z-10 flex items-center justify-center"
             >
-              <h2
+              <div
                 className="display display-outline text-center leading-[0.82]"
                 style={{ fontSize: "clamp(44px, 12vw, 190px)" }}
               >
                 Systems
-              </h2>
+              </div>
             </div>
           </div>
         </div>

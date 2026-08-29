@@ -10,6 +10,7 @@ import {
 } from "../lib/animations";
 import { ENERGY } from "../lib/field";
 import { PAD, SHELL } from "../lib/layout";
+import { asset } from "../lib/asset";
 import SectionLabel from "./SectionLabel";
 import LiveSitePreview from "./LiveSitePreview";
 import { projects, type Project } from "../data/projects";
@@ -260,12 +261,12 @@ function Chapter({ project, index }: { project: Project; index: number }) {
             // repeating the same two words on every frame on the page.
             data-cursor-label={host ? host.toUpperCase() : "NO PREVIEW"}
             onClick={open}
-            className="relative w-full h-full overflow-hidden bg-[#131311] md:absolute md:inset-0"
+            className="relative w-full h-full overflow-hidden bg-[var(--color-surface)] md:absolute md:inset-0"
           >
             {project.video && project.image ? (
               <LiveSitePreview
-                src={project.video}
-                poster={project.image}
+                src={asset(project.video)}
+                poster={asset(project.image)}
                 label={host}
                 active={onStage}
               />
