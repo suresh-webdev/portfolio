@@ -940,7 +940,7 @@ Email:
 
 LinkedIn:
 
-linkedin.com/in/s-u-r-e-s-h
+(https://www.linkedin.com/in/sureshwebdev/)
 
 GitHub:
 

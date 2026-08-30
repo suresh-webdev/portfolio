@@ -4,6 +4,6 @@ export const siteConfig = {
   tagline: "I build what powers the product and what people experience.",
   stack: ["NODE.JS", "PYTHON", "REACT", "AWS"],
   email: "sureshs.professional.career@gmail.com",
-  linkedin: "https://linkedin.com/in/s-u-r-e-s-h",
+  linkedin: "https://www.linkedin.com/in/sureshwebdev/",
   github: "https://github.com/suresh-webdev",
 };
